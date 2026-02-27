@@ -41,16 +41,8 @@ export const HOTEL_CONFIG = {
 
   legal: {
     taxId: "",
-    imprint: {
-      de: "",
-      en: "",
-      it: "",
-    },
-    privacy: {
-      de: "",
-      en: "",
-      it: "",
-    },
+    imprint: "",
+    privacy: "",
   },
 
   branding: {
@@ -75,11 +67,7 @@ export const HOTEL_CONFIG = {
 // BOOKING_CONFIG - Reservation settings
 // ============================================
 export const BOOKING_CONFIG = {
-  bookingUrls: {
-    de: "",
-    en: "",
-    it: "",
-  },
+  bookingUrl: "",
 
   dates: {
     minBookingDate: "2026-02-21",
@@ -147,47 +135,25 @@ export const TECHNICAL_CONFIG = {
 };
 
 // ============================================
-// SEO_CONFIG - Metadata for all languages
+// SEO_CONFIG - Metadata (German only)
 // ============================================
 export const SEO_CONFIG = {
   baseUrl: "https://example.com",
   ogImage: "/placeholder.svg",
 
   home: {
-    de: {
-      title: "Hotel Name - Urlaub in Südtirol",
-      description:
-        "Willkommen im Hotel Name in Südtirol. Genießen Sie Ihren Urlaub mit Wellness, Frühstück und traumhaftem Blick auf die Dolomiten.",
-      ogTitle: "Hotel Name - Urlaub in Südtirol",
-      ogDescription:
-        "Hotel Name: Ihr Urlaubsziel in Südtirol mit Wellness und Frühstück.",
-      ogLocale: "de_DE",
-    },
-    en: {
-      title: "Hotel Name - Holiday in South Tyrol",
-      description:
-        "Welcome to Hotel Name in South Tyrol. Enjoy your holiday with wellness, breakfast and stunning views of the Dolomites.",
-      ogTitle: "Hotel Name - Holiday in South Tyrol",
-      ogDescription:
-        "Hotel Name: Your holiday destination in South Tyrol with wellness and breakfast.",
-      ogLocale: "en_US",
-    },
-    it: {
-      title: "Hotel Name - Vacanza in Alto Adige",
-      description:
-        "Benvenuti all'Hotel Name in Alto Adige. Godetevi la vostra vacanza con wellness, colazione e vista mozzafiato sulle Dolomiti.",
-      ogTitle: "Hotel Name - Vacanza in Alto Adige",
-      ogDescription:
-        "Hotel Name: La vostra destinazione di vacanza in Alto Adige con wellness e colazione.",
-      ogLocale: "it_IT",
-    },
+    title: "Hotel Name - Urlaub in Südtirol",
+    description:
+      "Willkommen im Hotel Name in Südtirol. Genießen Sie Ihren Urlaub mit Wellness, Frühstück und traumhaftem Blick auf die Dolomiten.",
+    ogTitle: "Hotel Name - Urlaub in Südtirol",
+    ogDescription:
+      "Hotel Name: Ihr Urlaubsziel in Südtirol mit Wellness und Frühstück.",
+    ogLocale: "de_DE",
   },
 
   keywords: [
     "Hotel Südtirol",
     "Urlaub Dolomiten",
-    "Holiday South Tyrol",
-    "Vacanza Alto Adige",
     "Wellness Südtirol",
   ],
 };
@@ -266,8 +232,8 @@ export const hotelProfile: HotelProfile = {
     whatsapp: HOTEL_CONFIG.contact.phone.whatsapp.href,
   },
   legal: {
-    imprintBaseUrl: HOTEL_CONFIG.legal.imprint.de,
-    privacyBaseUrl: HOTEL_CONFIG.legal.privacy.de,
+    imprintBaseUrl: HOTEL_CONFIG.legal.imprint,
+    privacyBaseUrl: HOTEL_CONFIG.legal.privacy,
   },
   credits: { alpinAdsUrl: TECHNICAL_CONFIG.credits.agencyUrl },
   logo: {

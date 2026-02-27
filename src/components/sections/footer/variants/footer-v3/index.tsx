@@ -3,19 +3,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import { EnvelopeIcon, PhoneIcon } from "@phosphor-icons/react";
-import { useCommonTranslations, useFooterTranslations } from "@/lib/i18n/hooks";
+import { useFooterTranslations } from "@/lib/i18n/hooks";
 import { getHotelProfile, HOTEL_CONFIG } from "@/hotel-config";
-import { PRIVACY_SLUG_BY_LOCALE } from "@/lib/routes/registry";
-import type { Locale } from "@/lib/i18n/config";
+import { PRIVACY_SLUG } from "@/lib/routes/registry";
 import { CopyToClipboard } from "../../copy-to-clipboard";
 
 export function FooterV3() {
   const footer = useFooterTranslations();
-  const { locale } = useCommonTranslations();
   const hotelProfile = getHotelProfile();
 
-  const imprintUrl = HOTEL_CONFIG.legal.imprint[locale as Locale];
-  const privacyUrl = HOTEL_CONFIG.legal.privacy[locale as Locale];
+  const imprintUrl = HOTEL_CONFIG.legal.imprint;
+  const privacyUrl = HOTEL_CONFIG.legal.privacy;
 
   const IMAGES = [
     "/footer/footer-1.png",
@@ -103,7 +101,7 @@ export function FooterV3() {
                       {footer.legal.privacy}
                     </a>
                     <Link
-                      href={`${PRIVACY_SLUG_BY_LOCALE[locale as Locale]}`}
+                      href={`${PRIVACY_SLUG}`}
                       className="opacity-80 hover:opacity-100"
                     >
                       {footer.legal.privacySettings}

@@ -15,7 +15,5 @@ export {
   useOfferTabsTranslations,
 } from "./context";
 
-// Locale files (for consumers who want to extend)
+// German locale file (for consumers who want to extend)
 export { default as deLocale } from "./locales/de";
-export { default as enLocale } from "./locales/en";
-export { default as itLocale } from "./locales/it";

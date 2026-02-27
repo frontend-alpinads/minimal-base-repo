@@ -3,6 +3,7 @@
 import { createContext, useContext } from "react";
 import type { Dictionary } from "@/locales";
 import type { Locale } from "./config";
+import { defaultLocale } from "./config";
 
 interface TranslationsContextValue {
   locale: Locale;
@@ -12,18 +13,16 @@ interface TranslationsContextValue {
 const TranslationsContext = createContext<TranslationsContextValue | null>(null);
 
 interface TranslationsProviderProps {
-  locale: Locale;
   dictionary: Dictionary;
   children: React.ReactNode;
 }
 
 export function TranslationsProvider({
-  locale,
   dictionary,
   children,
 }: TranslationsProviderProps) {
   return (
-    <TranslationsContext.Provider value={{ locale, dictionary }}>
+    <TranslationsContext.Provider value={{ locale: defaultLocale, dictionary }}>
       {children}
     </TranslationsContext.Provider>
   );

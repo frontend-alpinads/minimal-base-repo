@@ -1,6 +1,5 @@
 import React from "react";
 import { TranslationsProvider } from "@/lib/i18n";
-import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/locales";
 import type { SiteVersion } from "@/lib/i18n/routing";
 import type {
@@ -23,9 +22,8 @@ import { Features } from "../sections/features/features";
 import { About } from "../sections/about/about";
 import { BookingLightbox } from "@/components/blocks/booking/booking-suedtirol";
 
-interface HomePageProps {
+export interface HomePageProps {
   version: SiteVersion;
-  locale: Locale;
   dictionary: Dictionary;
   contents: SiteContents;
   sectionVariants: SectionVariantsArray;
@@ -143,7 +141,6 @@ function HomePageFooter({
 
 export function HomePage({
   version,
-  locale,
   dictionary,
   contents,
   sectionVariants,
@@ -153,10 +150,9 @@ export function HomePage({
   testimonials,
 }: HomePageProps) {
   return (
-    <TranslationsProvider locale={locale} dictionary={dictionary}>
+    <TranslationsProvider dictionary={dictionary}>
       <ContentsProvider
         version={version}
-        locale={locale}
         contents={contents}
         sectionVariants={sectionVariants}
       >
@@ -170,7 +166,7 @@ export function HomePage({
           />
         </RoomsAndOffersProvider>
         <HomePageFooter sectionVariantsArray={sectionVariants} />
-        <BookingLightbox lang={locale} />
+        <BookingLightbox />
       </ContentsProvider>
     </TranslationsProvider>
   );

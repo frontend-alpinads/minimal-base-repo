@@ -1,8 +1,7 @@
 "use client";
 
 import { UsersIcon, QuotesIcon } from "@phosphor-icons/react";
-import { useLocale } from "@/lib/i18n/context";
-import { getTestimonials } from "@/data";
+import { testimonials } from "@/data";
 import { GalleryCta } from "./gallery-cta";
 
 type GalleryTestimonialsSidebarProps = {
@@ -14,25 +13,10 @@ export function GalleryTestimonialsSidebar({
   showCta = false,
   onClose,
 }: GalleryTestimonialsSidebarProps) {
-  const locale = useLocale();
-  const testimonials = getTestimonials(locale);
-
-  const sidebarContent = {
-    de: {
-      title: "Von Familien vertraut",
-      subtitle: "Bewertungen unserer Gäste.",
-    },
-    en: {
-      title: "Trusted by Families",
-      subtitle: "Hear testimonials from our Guests.",
-    },
-    it: {
-      title: "Scelto dalle Famiglie",
-      subtitle: "Ascolta le testimonianze dei nostri Ospiti.",
-    },
+  const content = {
+    title: "Von Familien vertraut",
+    subtitle: "Bewertungen unserer Gäste.",
   };
-
-  const content = sidebarContent[locale];
 
   return (
     <div className="bg-background hidden w-80 overflow-y-auto lg:block">

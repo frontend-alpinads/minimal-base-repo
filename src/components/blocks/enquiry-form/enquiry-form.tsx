@@ -34,23 +34,21 @@ import {
   shouldShowOpeningNotice,
 } from "@/lib/booking-utils";
 import { useLocale } from "@/lib/i18n";
-import { PRIVACY_SLUG_BY_LOCALE } from "@/lib/routes/registry";
+import { PRIVACY_SLUG } from "@/lib/routes/registry";
 import {
   EnquiryFormProvider,
   useEnquiryFormTranslations,
-  type Locale,
 } from "./i18n";
 
 interface EnquiryFormProps {
   type?: "hotel";
-  locale?: Locale;
   openingNotice?: string;
 }
 
 function EnquiryFormContent({
   type = "hotel",
   openingNotice,
-}: Omit<EnquiryFormProps, "locale">) {
+}: EnquiryFormProps) {
   const t = useEnquiryFormTranslations();
   const { rooms: availableRooms, offers } = useRoomsAndOffers();
   const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
@@ -673,7 +671,7 @@ function EnquiryFormContent({
             >
               {t.form.privacyPolicy.prefix}
               <Link
-                href={PRIVACY_SLUG_BY_LOCALE[t.locale as Locale]}
+                href={PRIVACY_SLUG}
                 className="underline hover:opacity-80"
                 target="_blank"
                 onClick={(e) => e.stopPropagation()}
@@ -708,13 +706,11 @@ function EnquiryFormContent({
 }
 
 export function EnquiryForm({
-  locale,
   type = "hotel",
   openingNotice,
 }: EnquiryFormProps) {
-  const currentLocale = useLocale();
   return (
-    <EnquiryFormProvider locale={locale ?? currentLocale}>
+    <EnquiryFormProvider>
       <EnquiryFormContent type={type} openingNotice={openingNotice} />
     </EnquiryFormProvider>
   );

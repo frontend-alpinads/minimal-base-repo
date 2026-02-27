@@ -4,8 +4,6 @@ import { notFound, redirect } from "next/navigation";
 // Revalidate every hour (ISR)
 export const revalidate = 3600;
 
-import type { Locale } from "@/lib/i18n";
-import { defaultLocale, locales } from "@/lib/i18n";
 import {
   formatPathname,
   formatPathnameWithAlias,
@@ -37,12 +35,10 @@ export async function generateMetadata({
   const canonicalPath = alias
     ? formatPathnameWithAlias({
         alias,
-        locale: parsed.locale,
         slugPath: parsed.slugPath,
       })
     : formatPathname({
         version: parsed.version,
-        locale: parsed.locale,
         slugPath: parsed.slugPath,
       });
 
@@ -62,7 +58,7 @@ export async function generateMetadata({
   if (!decision || decision.type !== "render") return base;
 
   if (decision.page === "home") {
-    const seoMeta = SEO_CONFIG.home[decision.locale];
+    const seoMeta = SEO_CONFIG.home;
 
     return {
       ...base,
@@ -83,44 +79,20 @@ export async function generateMetadata({
         description: seoMeta.ogDescription,
         images: [SEO_CONFIG.ogImage],
       },
-      alternates: {
-        ...base.alternates,
-        languages: locales.reduce(
-          (acc, l) => {
-            acc[l] = formatPathname({
-              version: parsed.version,
-              locale: l,
-              slugPath: "/",
-            });
-            return acc;
-          },
-          {} as Record<Locale, string>,
-        ),
-      },
     };
   }
 
   if (decision.page === "privacy") {
     return {
       ...base,
-      title:
-        decision.locale === "de"
-          ? "Datenschutzeinstellungen"
-          : decision.locale === "it"
-            ? "Impostazioni Privacy"
-            : "Privacy Settings",
+      title: "Datenschutzeinstellungen",
     };
   }
 
   if (decision.page === "thank-you") {
     return {
       ...base,
-      title:
-        decision.locale === "de"
-          ? "Anfrage erhalten"
-          : decision.locale === "it"
-            ? "Richiesta Ricevuta"
-            : "Inquiry Received",
+      title: "Anfrage erhalten",
     };
   }
 
@@ -148,27 +120,9 @@ export default async function CatchAllPage({
     redirect(
       formatPathnameWithAlias({
         alias,
-        locale: parsed.locale,
         slugPath: "/",
       }),
     );
-  }
-
-  // Option B canonicalization: never keep explicit "/de" in the URL.
-  if (parsed.hasExplicitLocale && parsed.locale === defaultLocale) {
-    // If we have an alias, redirect to alias path without locale
-    const targetPath = alias
-      ? formatPathnameWithAlias({
-          alias,
-          locale: defaultLocale,
-          slugPath: parsed.slugPath,
-        })
-      : formatPathname({
-          version: parsed.version,
-          locale: defaultLocale,
-          slugPath: parsed.slugPath,
-        });
-    redirect(targetPath);
   }
 
   const decision = decideRoute({
@@ -182,11 +136,11 @@ export default async function CatchAllPage({
 
   switch (decision.page) {
     case "home":
-      return await renderHome(decision.version, decision.locale);
+      return await renderHome(decision.version);
     case "privacy":
       return <PrivacySettingsPage />;
     case "thank-you":
-      return <ThankYouPage locale={decision.locale} />;
+      return <ThankYouPage />;
     default:
       return notFound();
   }

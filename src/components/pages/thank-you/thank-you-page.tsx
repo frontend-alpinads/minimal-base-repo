@@ -1,36 +1,18 @@
 import Image from "next/image";
 
-import type { Locale } from "@/lib/i18n";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ThankYouBackButton } from "./back-button";
 import { hotelProfile } from "@/hotel-config";
 
-const COPY_BY_LOCALE: Record<
-  Locale,
-  { title: string; message: string; showLogoOverlay: boolean }
-> = {
-  de: {
-    title: "Anfrage erhalten",
-    message:
-      "Vielen Dank für Ihre Anfrage. Wir haben diese erhalten und melden uns innerhalb von 24 Stunden mit Ihrem persönlichen Angebot. Familie Jäger freut sich auf Sie!",
-    showLogoOverlay: false,
-  },
-  en: {
-    title: "Inquiry Received",
-    message:
-      "Thank you for your inquiry. We have received it and will respond within 24 hours with your personalised offer. The Jäger family looks forward to welcoming you!",
-    showLogoOverlay: true,
-  },
-  it: {
-    title: "Richiesta Ricevuta",
-    message:
-      "Grazie per la vostra richiesta. L'abbiamo ricevuta e risponderemo entro 24 ore con la vostra offerta personalizzata. La famiglia Jäger non vede l'ora di accogliervi!",
-    showLogoOverlay: true,
-  },
+const COPY = {
+  title: "Anfrage erhalten",
+  message:
+    "Vielen Dank für Ihre Anfrage. Wir haben diese erhalten und melden uns innerhalb von 24 Stunden mit Ihrem persönlichen Angebot. Familie Jäger freut sich auf Sie!",
+  showLogoOverlay: false,
 };
 
-export function ThankYouPage({ locale }: { locale: Locale }) {
-  const copy = COPY_BY_LOCALE[locale];
+export function ThankYouPage() {
+  const copy = COPY;
 
   return (
     <section className="bg-primary flex h-screen items-center justify-center">
@@ -80,7 +62,7 @@ export function ThankYouPage({ locale }: { locale: Locale }) {
                 <p className="text-base leading-normal">{copy.message}</p>
               </div>
 
-              <ThankYouBackButton locale={locale} />
+              <ThankYouBackButton />
             </div>
           </div>
         </DialogContent>

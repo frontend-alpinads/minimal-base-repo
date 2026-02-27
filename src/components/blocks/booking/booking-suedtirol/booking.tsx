@@ -14,10 +14,11 @@ type BookingWidgetProps = {
   promotion?: [string | null, string | null, string | null];
 };
 
+// German-only legal URLs
 const LEGAL_URLS = {
   privacy: HOTEL_CONFIG.legal.privacy,
   terms: HOTEL_CONFIG.legal.imprint,
-};
+} as const;
 
 export function Booking({
   lang = "de",
@@ -30,8 +31,8 @@ export function Booking({
 }: BookingWidgetProps) {
   const initializedRef = useRef(false);
 
-  const privacyURL = LEGAL_URLS.privacy[lang] || LEGAL_URLS.privacy.de;
-  const termsURL = LEGAL_URLS.terms[lang] || LEGAL_URLS.terms.de;
+  const privacyURL = LEGAL_URLS.privacy;
+  const termsURL = LEGAL_URLS.terms;
 
   const initWidget = () => {
     if (initializedRef.current) return;

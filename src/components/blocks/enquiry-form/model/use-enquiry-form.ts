@@ -12,7 +12,7 @@ import {
 import { getCountryFromPrefix } from "@/data/phone-codes";
 import { useEnquiryFormTranslations } from "../i18n";
 import { useLocale } from "@/lib/i18n/context";
-import { THANK_YOU_SLUG_BY_LOCALE } from "@/lib/routes/registry";
+import { THANK_YOU_SLUG } from "@/lib/routes/registry";
 import type {
   DateSelectionValue,
   EnquiryFormData,
@@ -536,7 +536,7 @@ export function useEnquiryForm({
         track("request-form-submitted");
         triggerLeadEvent();
         // Redirect to thank you page
-        router.push(THANK_YOU_SLUG_BY_LOCALE[locale]);
+        router.push(THANK_YOU_SLUG);
         resetForm();
       } else {
         // Show error message

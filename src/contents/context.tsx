@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useMemo } from "react";
-import type { Locale } from "@/lib/i18n";
+import { defaultLocale, type Locale } from "@/lib/i18n";
 import type { SiteVersion } from "@/lib/i18n/routing";
 import type { SiteContents, SectionVariants, SectionVariantsArray, SectionKey } from "./types";
 
@@ -48,13 +48,11 @@ function arrayToObject(
 
 export function ContentsProvider({
   version,
-  locale,
   contents,
   sectionVariants: sectionVariantsArray,
   children,
 }: {
   version: SiteVersion;
-  locale: Locale;
   contents: SiteContents;
   sectionVariants: SectionVariantsArray;
   children: React.ReactNode;
@@ -68,7 +66,7 @@ export function ContentsProvider({
     <ContentsContext.Provider
       value={{
         version,
-        locale,
+        locale: defaultLocale,
         contents,
         sectionVariants,
         sectionVariantsArray,

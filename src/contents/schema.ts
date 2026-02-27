@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-const LocaleSchema = z.enum(["de", "en", "it"]);
 const SectionVariantSchema = z.string();
 const SectionKeySchema = z.enum([
   "hero",
@@ -27,304 +26,155 @@ const SectionVariantEntrySchema = z
     return SectionKeySchema.safeParse(key).success;
   }, "Section key must be a valid section key");
 
-export const VariantSpecSchema = z.object({
-  sectionVariants: z.array(SectionVariantEntrySchema),
-  locales: z.record(
-    LocaleSchema,
-    z.object({
-      hero: z.object({
-        title: z.string(),
-        subtitle: z.string(),
-        socialProof: z.string().optional(),
-        images: z.array(z.string()),
-        bookingForm: z.object({
-          arrivalDeparture: z.string(),
-          arrivalDepartureLabel: z.string(),
-          guests: z.string(),
-          guestsLabel: z.string(),
-          adultsFormat: z.object({
-            one: z.string(),
-            other: z.string(),
-          }),
-          childrenFormat: z.object({
-            one: z.string(),
-            other: z.string(),
-          }),
-          requestOffer: z.string(),
-        }),
-      }),
-      about: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        images: z.array(z.string()),
-      }),
-      features: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        items: z.array(
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            imageSrc: z.string(),
-            iconName: z.string(),
-          }),
-        ),
-      }),
-      gallery: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        viewAll: z.string(),
-        tabs: z.record(z.string(), z.string()),
-        categories: z.record(z.string(), z.string()),
-        popup: z.object({
-          title: z.string(),
-          closeSrLabel: z.string(),
-        }),
-        images: z.array(
-          z.object({
-            src: z.string(),
-            alt: z.string(),
-            category: z.string(),
-          }),
-        ),
-      }),
-      enquiry: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        backgroundImage: z.string(),
-        form: z.object({
-          roomType: z.object({
-            label: z.string(),
-            roomOnly: z.string(),
-            roomWithOffer: z.string(),
-          }),
-          dates: z.object({
-            label: z.string(),
-            alternative: z.string(),
-          }),
-          offer: z.object({
-            label: z.string(),
-            choose: z.string(),
-          }),
-          room: z.object({
-            label: z.string(),
-            chooseWithGuests: z.string(),
-          }),
-          salutation: z.object({
-            label: z.string(),
-            mr: z.string(),
-            mrs: z.string(),
-          }),
-          firstName: z.string(),
-          lastName: z.string(),
-          phone: z.string(),
-          email: z.string(),
-          message: z.string(),
-          newsletter: z.string(),
-          privacyPolicy: z.string(),
-          responseTime: z.string(),
-          submit: z.string(),
-          submitting: z.string(),
-          openingNotice: z.string().optional(),
-        }),
-      }),
-      testimonials: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        image: z.string(),
-      }),
-      faqs: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-      }),
-      offers: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-      }),
-      rooms: z.object({
-        badge: z.string(),
-        title: z.string(),
-        description: z.string(),
-        tabs: z.record(z.string(), z.string()),
-        logoImage: z.string(),
-      }),
-    }),
-  ),
-});
+// ====== Section Schemas (simplified - no localization) ======
 
-export type VariantSpec = z.infer<typeof VariantSpecSchema>;
-
-// ====== Section-First Zod Schemas ======
-// These validate the new structure where translations are grouped by field
-
-const LocalizedStringSchema = z.object({
-  de: z.string(),
-  en: z.string(),
-  it: z.string(),
-});
-
-const LocalizedOptionalStringSchema = z
-  .object({
-    de: z.string().optional(),
-    en: z.string().optional(),
-    it: z.string().optional(),
-  })
-  .optional();
-
-const HeroBookingFormSpecSchema = z.object({
-  arrivalDeparture: LocalizedStringSchema,
-  arrivalDepartureLabel: LocalizedStringSchema,
-  guests: LocalizedStringSchema,
-  guestsLabel: LocalizedStringSchema,
+const HeroBookingFormSchema = z.object({
+  arrivalDeparture: z.string(),
+  arrivalDepartureLabel: z.string(),
+  guests: z.string(),
+  guestsLabel: z.string(),
   adultsFormat: z.object({
-    one: LocalizedStringSchema,
-    other: LocalizedStringSchema,
+    one: z.string(),
+    other: z.string(),
   }),
   childrenFormat: z.object({
-    one: LocalizedStringSchema,
-    other: LocalizedStringSchema,
+    one: z.string(),
+    other: z.string(),
   }),
-  requestOffer: LocalizedStringSchema,
+  requestOffer: z.string(),
 });
 
-const SocialProofSpecSchema = z
+const SocialProofSchema = z
   .object({
     rating: z.number().optional(),
     maxRating: z.number().optional(),
     totalReviews: z.number().optional(),
-    reviewsText: LocalizedStringSchema.optional(),
+    reviewsText: z.string().optional(),
     link: z.string().optional(),
   })
   .optional();
 
-const HeroSpecSchema = z.object({
-  title: LocalizedStringSchema,
-  subtitle: LocalizedStringSchema,
-  socialProof: SocialProofSpecSchema,
+const HeroSchema = z.object({
+  title: z.string(),
+  subtitle: z.string(),
+  socialProof: SocialProofSchema,
   images: z.array(z.string()),
-  bookingForm: HeroBookingFormSpecSchema,
+  bookingForm: HeroBookingFormSchema,
 });
 
-const AboutSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const AboutSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
   images: z.array(z.string()),
 });
 
-const FeatureItemSpecSchema = z.object({
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const FeatureItemSchema = z.object({
+  title: z.string(),
+  description: z.string(),
   imageSrc: z.string(),
   iconName: z.string(),
 });
 
-const FeaturesSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
-  items: z.array(FeatureItemSpecSchema),
+const FeaturesSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
+  items: z.array(FeatureItemSchema),
 });
 
-const GalleryImageSpecSchema = z.object({
+const GalleryImageSchema = z.object({
   src: z.string(),
-  alt: LocalizedStringSchema,
+  alt: z.string(),
   category: z.string(),
 });
 
-const GallerySpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
-  viewAll: LocalizedStringSchema,
-  tabs: z.record(z.string(), LocalizedStringSchema),
+const GallerySchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
+  viewAll: z.string(),
+  tabs: z.record(z.string(), z.string()),
   categories: z.record(z.string(), z.string()),
   popup: z.object({
-    title: LocalizedStringSchema,
-    closeSrLabel: LocalizedStringSchema,
+    title: z.string(),
+    closeSrLabel: z.string(),
   }),
   highlightImages: z.object({
     desktop: z.array(z.string()),
     mobile: z.array(z.string()),
   }),
-  images: z.array(GalleryImageSpecSchema),
+  images: z.array(GalleryImageSchema),
 });
 
-const EnquiryFormSpecSchema = z.object({
+const EnquiryFormSchema = z.object({
   roomType: z.object({
-    label: LocalizedStringSchema,
-    roomOnly: LocalizedStringSchema,
-    roomWithOffer: LocalizedStringSchema,
+    label: z.string(),
+    roomOnly: z.string(),
+    roomWithOffer: z.string(),
   }),
   dates: z.object({
-    label: LocalizedStringSchema,
-    alternative: LocalizedStringSchema,
+    label: z.string(),
+    alternative: z.string(),
   }),
   offer: z.object({
-    label: LocalizedStringSchema,
-    choose: LocalizedStringSchema,
+    label: z.string(),
+    choose: z.string(),
   }),
   room: z.object({
-    label: LocalizedStringSchema,
-    chooseWithGuests: LocalizedStringSchema,
+    label: z.string(),
+    chooseWithGuests: z.string(),
   }),
   salutation: z.object({
-    label: LocalizedStringSchema,
-    mr: LocalizedStringSchema,
-    mrs: LocalizedStringSchema,
+    label: z.string(),
+    mr: z.string(),
+    mrs: z.string(),
   }),
-  firstName: LocalizedStringSchema,
-  lastName: LocalizedStringSchema,
-  phone: LocalizedStringSchema,
-  email: LocalizedStringSchema,
-  message: LocalizedStringSchema,
-  newsletter: LocalizedStringSchema,
-  privacyPolicy: LocalizedStringSchema,
-  responseTime: LocalizedStringSchema,
-  submit: LocalizedStringSchema,
-  submitting: LocalizedStringSchema,
-  openingNotice: LocalizedOptionalStringSchema,
+  firstName: z.string(),
+  lastName: z.string(),
+  phone: z.string(),
+  email: z.string(),
+  message: z.string(),
+  newsletter: z.string(),
+  privacyPolicy: z.string(),
+  responseTime: z.string(),
+  submit: z.string(),
+  submitting: z.string(),
+  openingNotice: z.string().optional(),
 });
 
-const EnquirySpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const EnquirySchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
   backgroundImage: z.string(),
-  form: EnquiryFormSpecSchema,
+  form: EnquiryFormSchema,
 });
 
-const TestimonialsSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const TestimonialsSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
   image: z.string(),
 });
 
-const FaqsSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const FaqsSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
 });
 
-const OffersSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
+const OffersSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
 });
 
-const RoomsSpecSchema = z.object({
-  badge: LocalizedStringSchema,
-  title: LocalizedStringSchema,
-  description: LocalizedStringSchema,
-  tabs: z.record(z.string(), LocalizedStringSchema),
+const RoomsSchema = z.object({
+  badge: z.string(),
+  title: z.string(),
+  description: z.string(),
+  tabs: z.record(z.string(), z.string()),
   logoImage: z.string(),
 });
 
@@ -349,24 +199,22 @@ const VariantFiltersSchema = z.object({
   offers: OfferFiltersSchema.optional(),
 });
 
-export const VariantSpecSectionFirstSchema = z.object({
+export const VariantSpecSchema = z.object({
   $schema: z.string().optional(),
   routeConfig: RouteConfigSchema.optional(),
   sectionVariants: z.array(SectionVariantEntrySchema),
   filters: VariantFiltersSchema.optional(),
   content: z.object({
-    hero: HeroSpecSchema,
-    about: AboutSpecSchema,
-    features: FeaturesSpecSchema,
-    gallery: GallerySpecSchema,
-    enquiry: EnquirySpecSchema,
-    testimonials: TestimonialsSpecSchema,
-    faqs: FaqsSpecSchema,
-    offers: OffersSpecSchema,
-    rooms: RoomsSpecSchema,
+    hero: HeroSchema,
+    about: AboutSchema,
+    features: FeaturesSchema,
+    gallery: GallerySchema,
+    enquiry: EnquirySchema,
+    testimonials: TestimonialsSchema,
+    faqs: FaqsSchema,
+    offers: OffersSchema,
+    rooms: RoomsSchema,
   }),
 });
 
-export type VariantSpecSectionFirst = z.infer<
-  typeof VariantSpecSectionFirstSchema
->;
+export type VariantSpec = z.infer<typeof VariantSpecSchema>;

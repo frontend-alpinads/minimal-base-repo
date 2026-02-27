@@ -3,20 +3,12 @@
 import { createContext, useContext, type ReactNode } from "react";
 import type { EnquiryFormTranslations, Locale } from "./types";
 import de from "./locales/de";
-import en from "./locales/en";
-import it from "./locales/it";
-
-const locales: Record<Locale, EnquiryFormTranslations> = {
-  de,
-  en,
-  it,
-};
 
 /**
- * Get translations for a given locale
+ * Get translations - returns German translations
  */
-export function getTranslations(locale: Locale): EnquiryFormTranslations {
-  return locales[locale] || locales.de;
+export function getTranslations(_locale?: Locale): EnquiryFormTranslations {
+  return de;
 }
 
 /**
@@ -25,7 +17,6 @@ export function getTranslations(locale: Locale): EnquiryFormTranslations {
 const EnquiryFormTranslationsContext = createContext<EnquiryFormTranslations | null>(null);
 
 interface EnquiryFormProviderProps {
-  locale: Locale;
   children: ReactNode;
   /** Optional override translations (for consumers who want to customize) */
   overrides?: Partial<EnquiryFormTranslations>;
@@ -35,11 +26,10 @@ interface EnquiryFormProviderProps {
  * Provider component for enquiry form translations
  */
 export function EnquiryFormProvider({
-  locale,
   children,
   overrides,
 }: EnquiryFormProviderProps) {
-  const baseTranslations = getTranslations(locale);
+  const baseTranslations = getTranslations();
   const translations = overrides
     ? { ...baseTranslations, ...overrides }
     : baseTranslations;
@@ -59,7 +49,7 @@ export function useEnquiryFormTranslations(): EnquiryFormTranslations {
   const context = useContext(EnquiryFormTranslationsContext);
   // Return fallback translations when used outside provider (e.g., hero booking forms)
   if (!context) {
-    return locales.de;
+    return de;
   }
   return context;
 }

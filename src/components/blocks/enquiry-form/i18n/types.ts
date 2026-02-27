@@ -2,7 +2,7 @@
  * Types for the enquiry form's self-contained translations
  */
 
-export type Locale = "de" | "en" | "it";
+export type Locale = "de";
 
 export interface PluralForm {
   one: string;

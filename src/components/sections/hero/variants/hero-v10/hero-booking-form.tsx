@@ -25,12 +25,12 @@ import { useCommonTranslations } from "@/lib/i18n/hooks";
 import { useLocale } from "@/lib/i18n/context";
 import { useRoomsAndOffers } from "@/components/providers/rooms-and-offers-provider";
 import { getMinBookingDate } from "@/lib/booking-utils";
-import { TestimonialData } from "@/shared-types";
-import { roomsData } from "@/data/rooms";
+import { Testimonial } from "@/shared-types";
+import { rooms } from "@/data/rooms";
 
 type HeroBookingFormProps = {
   selectedIndex: number;
-  testimonial: TestimonialData;
+  testimonial: Testimonial;
 };
 
 export function HeroBookingForm({
@@ -43,7 +43,7 @@ export function HeroBookingForm({
   const { offers } = useRoomsAndOffers();
 
   // Get the minimum room price
-  const minPrice = Math.min(...roomsData.map((room) => room.price));
+  const minPrice = Math.min(...rooms.map((room) => room.price));
   const formattedMinPrice = `€${minPrice}`;
 
   const { selectedDates, guestSelection, setSelectedDates, setGuestSelection } =
@@ -288,8 +288,8 @@ export function HeroBookingForm({
               </span>
             </div>
             <p className="text-background/50 text-xs leading-relaxed">
-              &ldquo;{truncateText(testimonial.text[locale], 60)}&rdquo; —{" "}
-              {testimonial.name[locale]}, {testimonial.country[locale]}
+              &ldquo;{truncateText(testimonial.text, 60)}&rdquo; —{" "}
+              {testimonial.name}, {testimonial.country}
             </p>
           </div>
         </div>

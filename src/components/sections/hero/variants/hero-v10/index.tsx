@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { HeroImages } from "../../hero-images";
 import { HeroBookingForm } from "./hero-booking-form";
 import { useNavTranslations, useCommonTranslations } from "@/lib/i18n/hooks";
-import { useLocale } from "@/lib/i18n/context";
 import { useHeroContent } from "@/contents";
 import { getHotelProfile } from "@/hotel-config";
 import { track } from "@vercel/analytics/react";
@@ -17,7 +16,7 @@ import {
   SealCheckIcon,
   CheckCircleIcon,
 } from "@phosphor-icons/react";
-import { testimonialsData } from "@/data/testimonials";
+import { testimonials } from "@/data/testimonials";
 
 interface HeroV10Props {
   selectedIndex: number;
@@ -44,18 +43,17 @@ export function HeroV10({
   const hero = useHeroContent();
   const common = useCommonTranslations();
   const hotelProfile = getHotelProfile();
-  const locale = useLocale();
 
   // Get the testimonial with highest rating and shortest text
   const testimonial = useMemo(() => {
-    const maxRating = Math.max(...testimonialsData.map((t) => t.rating));
-    const highestRated = testimonialsData.filter((t) => t.rating === maxRating);
+    const maxRating = Math.max(...testimonials.map((t) => t.rating));
+    const highestRated = testimonials.filter((t) => t.rating === maxRating);
     return highestRated.reduce((shortest, current) =>
-      current.text[locale].length < shortest.text[locale].length
+      current.text.length < shortest.text.length
         ? current
         : shortest,
     );
-  }, [locale]);
+  }, []);
 
   const navItems = [
     { label: nav.rooms, link: "#rooms" },
@@ -186,22 +184,22 @@ export function HeroV10({
 
                 {/* Quote */}
                 <p className="text-foreground line-clamp-3 text-sm leading-relaxed">
-                  &ldquo;{testimonial.text[locale]}&rdquo;
+                  &ldquo;{testimonial.text}&rdquo;
                 </p>
 
                 {/* Author */}
                 <div className="flex items-center gap-2">
                   <div className="bg-secondary flex size-8 items-center justify-center">
                     <span className="text-background text-xs font-medium">
-                      {getInitials(testimonial.name[locale])}
+                      {getInitials(testimonial.name)}
                     </span>
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="text-foreground text-xs leading-tight font-medium">
-                      {testimonial.name[locale]}
+                      {testimonial.name}
                     </span>
                     <span className="text-foreground/45 text-[10px] leading-tight">
-                      {testimonial.country[locale]}
+                      {testimonial.country}
                     </span>
                   </div>
                 </div>

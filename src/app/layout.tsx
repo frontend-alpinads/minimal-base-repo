@@ -3,7 +3,6 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { WipScreen } from "@/components/wip-screen";
-import { headers } from "next/headers";
 import { HOTEL_CONFIG, SEO_CONFIG, TECHNICAL_CONFIG } from "@/hotel-config";
 
 const montserrat = Montserrat({
@@ -14,16 +13,16 @@ const montserrat = Montserrat({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SEO_CONFIG.baseUrl),
-  title: SEO_CONFIG.home.de.title,
-  description: SEO_CONFIG.home.de.description,
+  title: SEO_CONFIG.home.title,
+  description: SEO_CONFIG.home.description,
   keywords: SEO_CONFIG.keywords,
   authors: [{ name: HOTEL_CONFIG.name }],
   openGraph: {
     type: "website",
-    locale: SEO_CONFIG.home.de.ogLocale,
+    locale: SEO_CONFIG.home.ogLocale,
     url: SEO_CONFIG.baseUrl,
-    title: SEO_CONFIG.home.de.ogTitle,
-    description: SEO_CONFIG.home.de.ogDescription,
+    title: SEO_CONFIG.home.ogTitle,
+    description: SEO_CONFIG.home.ogDescription,
     siteName: HOTEL_CONFIG.name,
     images: [
       {
@@ -36,8 +35,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: SEO_CONFIG.home.de.ogTitle,
-    description: SEO_CONFIG.home.de.ogDescription,
+    title: SEO_CONFIG.home.ogTitle,
+    description: SEO_CONFIG.home.ogDescription,
     images: [SEO_CONFIG.ogImage],
   },
   robots: {
@@ -70,11 +69,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const locale = headersList.get("x-locale") || "de";
-
   return (
-    <html lang={locale} className="">
+    <html lang="de" className="">
       <head>
         {/* Google Tag Manager */}
         {TECHNICAL_CONFIG.analytics.gtmId && (
